@@ -2,6 +2,13 @@ import { catchAsyncError } from "../middlewares/async-error-middleware.js";
 import ErrorHandler from "../middlewares/error-middleware.js";
 import { Job } from "../models/job-model.js";
 
+/**
+ * Retrieves all active jobs.
+ * @param {Request} req - The Express request object.
+ * @param {Response} res - The Express response object.
+ * @param {NextFunction} next - The Express next function.
+ * @returns {Promise<void>} - A Promise representing the completion of the operation.
+ */
 export const getAllJobs = catchAsyncError(async (req, res, next) => {
   const jobs = await Job.find({ expired: false });
   res.status(200).json({
@@ -10,6 +17,13 @@ export const getAllJobs = catchAsyncError(async (req, res, next) => {
   });
 });
 
+/**
+ * Posts a new job.
+ * @param {Request} req - The Express request object.
+ * @param {Response} res - The Express response object.
+ * @param {NextFunction} next - The Express next function.
+ * @returns {Promise<void>} - A Promise representing the completion of the operation.
+ */
 export const postJob = catchAsyncError(async (req, res, next) => {
   const { role } = req.user;
   //   console.log(req);
@@ -70,6 +84,13 @@ export const postJob = catchAsyncError(async (req, res, next) => {
   });
 });
 
+/**
+ * Retrieves all jobs posted by the current user.
+ * @param {Request} req - The Express request object.
+ * @param {Response} res - The Express response object.
+ * @param {NextFunction} next - The Express next function.
+ * @returns {Promise<void>} - A Promise representing the completion of the operation.
+ */
 export const getMyJobs = catchAsyncError(async (req, res, next) => {
   const { role } = req.user;
   if (role === "Job Seeker") {
@@ -84,6 +105,13 @@ export const getMyJobs = catchAsyncError(async (req, res, next) => {
   });
 });
 
+/**
+ * Updates a job.
+ * @param {Request} req - The Express request object.
+ * @param {Response} res - The Express response object.
+ * @param {NextFunction} next - The Express next function.
+ * @returns {Promise<void>} - A Promise representing the completion of the operation.
+ */
 export const updateJob = catchAsyncError(async (req, res, next) => {
   const { role } = req.user;
   if (role === "Job Seeker") {
@@ -107,6 +135,13 @@ export const updateJob = catchAsyncError(async (req, res, next) => {
   });
 });
 
+/**
+ * Deletes a job.
+ * @param {Request} req - The Express request object.
+ * @param {Response} res - The Express response object.
+ * @param {NextFunction} next - The Express next function.
+ * @returns {Promise<void>} - A Promise representing the completion of the operation.
+ */
 export const deleteJob = catchAsyncError(async (req, res, next) => {
   const { role } = req.user;
   if (role === "Job Seeker") {
