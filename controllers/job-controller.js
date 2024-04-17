@@ -158,3 +158,24 @@ export const deleteJob = catchAsyncError(async (req, res, next) => {
     message: "Job deleted successfully!",
   });
 });
+
+/**
+ * Retrieves a single job by its ID.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ * @returns {Promise<void>} - A promise representing the asynchronous operation.
+ */
+export const getSingleJob = catchAsyncError(async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const job = await Job.findById(id);
+    if (!job) return next(new ErrorHandler("Job not found!", 404));
+    res.status(200).json({
+      success: true,
+      job,
+    });
+  } catch (error) {
+    return next(new ErrorHandler("Invalid ID / CastError!", 404));
+  }
+});

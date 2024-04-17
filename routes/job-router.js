@@ -4,6 +4,7 @@ import {
   deleteJob,
   getAllJobs,
   getMyJobs,
+  getSingleJob,
   postJob,
   updateJob,
 } from "../controllers/job-controller.js";
@@ -14,5 +15,6 @@ router.post("/post", isAuthorized, postJob);
 router.get("/my-jobs", isAuthorized, getMyJobs);
 router.put("/update/:id", isAuthorized, updateJob);
 router.delete("/delete/:id", isAuthorized, deleteJob);
+router.get("/:id", isAuthorized, getSingleJob);
 
 export default router;
