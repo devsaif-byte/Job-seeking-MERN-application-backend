@@ -62,6 +62,20 @@ export const postJob = catchAsyncError(async (req, res, next) => {
       new ErrorHandler("Cannot Enter Fixed and Ranged Salary together.", 400)
     );
   }
+
+  // Check the post already exist or not
+  const checkPostExist = await Job.findOne({
+    title,
+    description,
+    category,
+    country,
+    city,
+    location,
+    fixedSalary,
+    salaryFrom,
+    salaryTo,
+  });
+  if (checkPostExist) return next(new ErrorHandler("Job already exist!"));
   // create post with postedby user using id
   const postedBy = req.user._id;
   const post = await Job.create({
