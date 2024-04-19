@@ -32,4 +32,5 @@ app.use("/api/v1/application", applicationRouter);
 dbConnection();
 
 app.use(errorMiddleware);
+app.options("*", cors());
 export default app;
