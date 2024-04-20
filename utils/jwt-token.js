@@ -9,13 +9,15 @@
 export const sendResponseToken = (user, statusCode, res, message) => {
   // Generate JWT token for the user
   const token = user.getJWTtoken();
-  // Set cookie options
 
+  // Set cookie options
   const options = {
-    expiresIn: new Date(
-      Date.now() + process.envCOOKIE_EXPIRE * 24 * 60 * 60 * 1000
+    expires: new Date(
+      Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
+    secure: process.env.FRONTEND_URL_PROD_MODE ? true : false, // set to true because we'll be using https in production
+    sameSite: "none",
   };
   // Send response with token as a cookie
   res.status(statusCode).cookie("token", token, options).json({
