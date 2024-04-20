@@ -7,7 +7,12 @@ cloudinary.v2.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
+
+if (!PORT) {
+  console.error("PORT environment variable is not defined.");
+  process.exit(1); // Exit the process with an error code
+}
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
