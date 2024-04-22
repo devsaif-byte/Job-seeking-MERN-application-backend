@@ -43,6 +43,18 @@ app.use(
     ),
   })
 );
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", [
+    process.env.FRONTEND_URL_DEV_MODE,
+    process.env.FRONTEND_URL_PROD_MODE,
+  ]);
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  next();
+});
 app.use(
   // using json, urlencode, fileupload for cloudinary
   express.json(),
