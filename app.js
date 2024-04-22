@@ -45,9 +45,12 @@ app.use(
 );
 export const allowCors = (fn) => async (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", true);
-  // res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    process.env.FRONTEND_URL_PROD_MODE
+  );
   // another common pattern
-  res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
+  // res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET,OPTIONS,PATCH,DELETE,POST,PUT"
