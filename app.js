@@ -43,7 +43,7 @@ app.use(
     ),
   })
 );
-const allowCors = (fn) => async (req, res) => {
+export const allowCors = (fn) => async (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", true);
   // res.setHeader("Access-Control-Allow-Origin", "*");
   // another common pattern
@@ -68,7 +68,7 @@ const handler = (req, res) => {
   res.end(d.toString());
 };
 
-module.exports = allowCors(handler);
+allowCors(handler);
 
 app.use(
   // using json, urlencode, fileupload for cloudinary
