@@ -43,18 +43,33 @@ app.use(
     ),
   })
 );
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", [
-    process.env.FRONTEND_URL_DEV_MODE,
-    process.env.FRONTEND_URL_PROD_MODE,
-  ]);
-  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+const allowCors = (fn) => async (req, res) => {
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  // res.setHeader("Access-Control-Allow-Origin", "*");
+  // another common pattern
+  res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET,OPTIONS,PATCH,DELETE,POST,PUT"
   );
-  next();
-});
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+  );
+  if (req.method === "OPTIONS") {
+    res.status(200).end();
+    return;
+  }
+  return await fn(req, res);
+};
+
+const handler = (req, res) => {
+  const d = new Date();
+  res.end(d.toString());
+};
+
+module.exports = allowCors(handler);
+
 app.use(
   // using json, urlencode, fileupload for cloudinary
   express.json(),
